@@ -1,0 +1,24 @@
+<div id="home-block-item">
+    {{if .IsFirst}}
+        <div style="width: 100%;height: 100px"></div>
+    {{end}}
+    <h2><a href="{{.Link}}">{{.Title}}</a></h2>
+    <div>
+        <span>{{.CreateTime}}</span>
+        <span>
+        {{range .Tags}}
+            <a href="{{.TagUrl}}">&nbsp{{.TagName}}</a>
+        {{end}}
+        </span>
+    </div>
+    <p><a href={{.Link}}>{{.Short}}</a></p>
+    <p>author:{{.Author}}</p>
+{{if .IsLogin}}
+    {{if .IsBelong}}
+        <div class="home-block-item-udpate">
+            <a href='javascript:if(confirm("确定删除吗？")){location="{{.DeleteLink}}"}'>删除</a>
+            <a href={{.UpdateLink}}>修改</a>
+        </div>
+    {{end}}
+{{end}}
+</div>

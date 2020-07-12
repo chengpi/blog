@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/lib/login.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/blogsheet.css">
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    {{/*<script src="../static/js/lib/jquery-3.3.1.min.js"></script>*/}}
+    {{/*<script src="../static/js/lib/jquery.url.js"></script>*/}}
+    {{/*<script src="../static/js/blog.js"></script>*/}}
+    <script type="text/javascript">
+        $.validator.setDefaults({
+            submitHandler: function() {
+                alert("提交事件!");
+                var urlStr ="/login"
+                // alert("urlStr:"+urlStr)
+                $.ajax({
+                    url:urlStr,
+                    type:"post",
+                    dataType:"json",
+                    data:{
+                        "username": $("#login-username").val(),
+                        "password": $("#login-password").val(),
+                    },
+                    // success:function (data,status) {
+                    //     alert("data:"+data.message+":"+status)
+                    //     if(data.code == 1){
+                    //         // setTimeout(function () {
+                    //         //     window.location.href="/"
+                    //         // },1000)
+                    //         window.location.href="/home"
+                    //     }
+                    // };
+                    success:function (data) {
+                        alert("data:"+data.message+":"+data.status)
+                        if(data.code == 1){
+                            // setTimeout(function () {
+                            //     window.location.href="/"
+                            // },1000)
+                            window.location.href="/home"
+                        }
+                    },
+                    error:function (data,status) {
+                        alert("err:"+data.message+":"+status)
+                    }
+                });
+                // form.submit();
+            }
+        });
+        //登录
+        $().ready(function () {
+            $("#login-form").validate({
+                rules:{
+                    username:{
+                        required:true,
+                        rangelength:[3,10]
+                    },
+                    password:{
+                        required:true,
+                        rangelength:[6,20]
+                    }
+                },
+                messages:{
+                    username:{
+                        required:"请输入用户名",
+                        rangelength:"用户名必须是3-10位"
+                    },
+                    password:{
+                        required:"请输入密码",
+                        rangelength:"密码必须是6-20位"
+                    }
+                }
+            });
+        });
+
+    </script>
+</head>
+<body>
+{{/*<div id="nav">*/}}
+    {{/*<div id="nav-login">*/}}
+        {{/*<ul>*/}}
+            {{/*<li><a href="/login">登录</a></li>*/}}
+            {{/*<li><a href="/register">注册</a></li>*/}}
+
+        {{/*</ul>*/}}
+
+    {{/*</div>*/}}
+{{/*</div>*/}}
+{{template "block/nav1.html"}}
+
+<div class="htmleaf-container">
+    <div class="wrapper">
+    {{/*注册表单*/}}
+        <div class="container">
+            <h1>Welcome</h1>
+            <form id="login-form" class="form" method="post" action="">
+                <input type="text" name="username" placeholder="请输入用户名" id="login-username">
+                <input type="password" name="password" placeholder="请输入密码" id="login-password">
+                <br>
+                <button type="submit" id="login-button">登录</button>
+            </form>
+        </div>
+
+    {{/*背景动画*/}}
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>

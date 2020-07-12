@@ -1,0 +1,116 @@
+<div id="main">
+    {{if .IsLogin}}
+        {{/*<ul id="login_ul" value="{{.IsLogin}}">*/}}
+            <form id="write-art-form" method="post">
+                <div>标题</div>
+                <input type="text" placeholder="请输入标题" name="title" id="title" value="{{.Title}}">
+                <div>标签</div>
+                <input type="text" placeholder="请输入标签" name="tags" id="tags" value="{{.Tags}}">
+                <div>简介</div>
+                <textarea placeholder="请输入简介" name="short" id="short">{{.Short}}</textarea>
+                <div>内容</div>
+                <textarea id="content" placeholder="请输入内容" name="content" id="content">{{.Content}}</textarea>
+                <input id="write-article-id" hidden name="id" value="{{.Id}}">
+                <br>
+                <button type="button" onclick="history.back()">返回</button>
+                <button type="submit" id="write-art-submit">提交</button>
+            </form>
+        {{/*</ul>*/}}
+    {{else}}
+
+    {{end}}
+</div>
+<script type="text/javascript">
+    // $(document).ready(function () {
+    //     // alert("\""+ $.trim($("#login_ul").val()) +"\"")
+    //     // if($.trim($("#login_ul").val()) == true){
+    //     //     alert("登录状态");
+    //     // }else{
+    //     //     alert("未登录状态");
+    //     // }
+    //     if(document.getElementById("login_ul").value == "true"){
+    //         alert("登录状态");
+    //     }
+    // });
+    // var element=document.getElementById("header");
+    // element.innerHTML="新标题";
+    $.validator.setDefaults({
+        submitHandler: function() {
+            alert("提交事件!");
+            var urlStr ="/article/add";
+            // alert("urlStr:"+urlStr)
+            //判断文章id确定提交的表单的服务器地址
+            //若id大于零，说明是修改文章
+            var artId = $("#write-article-id").val();
+            // alert("artId:" + artId);
+            if (artId > 0) {
+                urlStr = "/article/update"
+            }
+            $.ajax({
+                url:urlStr,
+                type:"post",
+                dataType:"json",
+                data:{
+                    "id":artId,
+                    "title": $("#title").val(),
+                    "tags": $("#tags").val(),
+                    "short":$("#short").val(),
+                    "content":$("#content").val()
+                },
+                // success:function (data,status) {
+                //     alert("data:"+data.message+":"+status)
+                //     if(data.code == 1){
+                //         // setTimeout(function () {
+                //         //     window.location.href="/"
+                //         // },1000)
+                //         window.location.href="/home"
+                //     }
+                // };
+                success:function (data) {
+                    alert("data:"+data.message+":"+data.status)
+                    if(data.code == 1){
+                        // setTimeout(function () {
+                        //     window.location.href="/"
+                        // },1000)
+                        window.location.href="/home"
+                    }else{
+                        window.location.href="/login"
+                    }
+                },
+                error:function (data,status) {
+                    alert("err:"+data.message+":"+status)
+                }
+            });
+            // form.submit();
+        }
+    });
+    //登录
+    $().ready(function () {
+        $("#write-art-form").validate({
+            rules: {
+                title: "required",
+                tags: "required",
+                short: {
+                    required: true,
+                    rangelength: [2,255]
+                },
+                content: {
+                    required: true,
+                    minlength: 2
+                }
+            },
+            messages: {
+                title: "请输入标题",
+                tags: "请输入标签",
+                short: {
+                    required: "请输入简介",
+                    rangelength: "简介内容在2个到255个字符之间"
+                },
+                content: {
+                    required: "请输入文章内容",
+                    minlength: "文章内容最少2个字符"
+                }
+            }
+        });
+    });
+</script>

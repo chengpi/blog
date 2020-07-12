@@ -1,0 +1,86 @@
+<div id="nav">
+    <div id="nav-write-article">
+        <ul id="login_ul" value="{{.IsLogin}}">
+        {{/*如果已经登录，才会显示"写博客"*/}}
+        {{if .IsLogin}}
+            <li><a href="/article/add">写博客</a></li>
+            {{/*<li><a onclick="onclickAddArticle()">写博客</a></li>*/}}
+            {{/*<li><a href='javascript:onclickAddArticle()'>写博客</a></li>*/}}
+        {{end}}
+        </ul>
+    </div>
+
+    <div id="nav-menu">
+        <ul>
+            <li><a href="/home">首页</a></li>
+            <li><a href="/tags">标签</a></li>
+            <li><a href="/album">相册</a></li>
+            <li><a href="/#">关于我</a></li>
+        </ul>
+    </div>
+
+    <div id="nav-login">
+        <ul>
+        {{if .IsLogin}}
+            {{/*<li><a type="button" onclick="onclickExit()">退出</a></li>*/}}
+            {{/*<li><a href="" onclick="onclickExit()">退出</a></li>不能加有href="",哪怕是空url路径，不
+            然会影响onclickEXit函数执行其体内window.location.href="/exit"这一条语句，导致路径跳转有问题*/}}
+            {{/*<li><a href='javascript:if(confirm("确定退出吗？")){location="/exit"}'>退出</a></li>*/}}
+            <li><a href='javascript:onclickExit()'>退出</a></li>
+        {{else}}
+            <li><a href="/login">登录</a></li>
+            <li><a href="/register">注册</a></li>
+        {{end}}
+        </ul>
+    </div>
+
+</div>
+<script>
+    function onclickExit() {
+        if(confirm("确定退出吗？")){
+            window.location.href="/exit"
+        }
+    }
+    function onclickAddArticle() {
+        // alert("进入写博客界面!")
+        {{/*{{if .IsLogin}}*/}}
+            {{/*alert("当前为登录状态！")*/}}
+            {{/*window.location.href = "/article/add";*/}}
+        {{/*{{else}}*/}}
+            {{/*alert("当前为未登录状态！")*/}}
+            {{/*window.location.href = "/login";*/}}
+        {{/*{{end}}*/}}
+        {{/*if({{.IsLogin}}){*/}}
+            {{/*alert("当前为登录状态！")*/}}
+            {{/*window.location.href = "/article/add";*/}}
+        {{/*}else{*/}}
+            {{/*alert("当前为未登录状态！")*/}}
+            {{/*window.location.href = "/login";*/}}
+        {{/*}*/}}
+        // $.ajax({
+        //     type: "get",
+        //     url: "/article/add",
+        //     dataType:"json",
+        //     data: {
+        //         // "account": $("#account").val(),
+        //         // "pwd": $("#password").val(),
+        //         // "captchaId":$("#captchaId").val(),
+        //         // "captcha": $("#randCode").val()
+        //     },
+        //     success: function (data) {
+        //         if (data.IsLogin == false) {
+        //             alert("当前为未登录状态:"+data.IsLogin)
+        //             window.location.href = "/login";
+        //         } else{
+        //             alert("当前为登录状态:"+data.IsLogin)
+        //             window.location.href = "/article/add";
+        //         }
+        //     }
+        // })
+        // if(document.getElementById("login_ul").valueOf()){
+            // alert("登录状态:" + document.getElementById("login_ul").valueOf());
+        // }else{
+            // alert("未登录状态:"+ document.getElementById("login_ul").valueOf());
+        // }
+    }
+</script>

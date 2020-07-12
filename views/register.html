@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+    <link rel="stylesheet" type="text/css" href="../static/css/lib/login.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/blogsheet.css">
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+    <script src="https://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+    {{/*<script src="../static/js/lib/jquery-3.3.1.min.js"></script>*/}}
+    <script type="text/javascript">
+        $.validator.addMethod("isZipCode", function(value, element) {
+            var tel = /^[0-9]{6}$/;
+            return this.optional(element) || (tel.test(value));
+        }, "请正确填写您的邮政编码");
+        function Ajax(){
+            var urlStr = "/register";
+            $.ajax({
+                url:urlStr,
+                type:"post",
+                dataType:"json",
+                data:{
+                    "username": $("#register-username").val(),
+                    "password": $("#register-password").val(),
+                    "repassword":$("#register-repassword").val()
+                },
+                success:function (data,status) {
+                    alert("data:"+data.message)
+                    if (data.code == 1){
+                        window.location.href="/login"
+                        // setTimeout(function () {
+                        //     window.location.href="/login"
+                        // },1000)
+                    }
+                },
+                err:function (data,status) {
+                    alert("err:"+data.message+":"+status)
+                }
+            })
+        }
+        // alert("我的jQuery代码");
+        $.validator.setDefaults({
+            submitHandler: function() {
+                alert("提交事件!");
+
+                // alert("urlStr:"+urlStr)
+                // console.log("======")
+                // alert("我的第一个jQuery代码");
+                Ajax();
+            }
+        });
+        $().ready(function () {
+            // alert("提交表单");
+            $("#register-form").validate({
+                rules:{
+                    username:{
+                        required:true,
+                        rangelength:[3,10],
+                        isZipCode:[]
+                    },
+                    password:{
+                        required:true,
+                        rangelength:[6,20]
+                    },
+                    repassword:{
+                        required:true,
+                        rangelength:[6,20],
+                        equalTo:"#register-password"
+                    }
+                },
+                messages:{
+                    username:{
+                        required:"请输入用户名",
+                        rangelength:"用户名必须是3-10位"
+                    },
+                    password:{
+                        required:"请输入密码",
+                        rangelength:"密码必须是6-20位"
+                    },
+                    repassword:{
+                        required:"请确认密码",
+                        rangelength:"密码必须是6-20位",
+                        equalTo:"两次输入的密码必须相等"
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+{{/*<div id="nav">*/}}
+    {{/*<div id="nav-login">*/}}
+        {{/*<ul>*/}}
+            {{/*<li><a href="/login">登录</a></li>*/}}
+            {{/*<li><a href="/register">注册</a></li>*/}}
+
+        {{/*</ul>*/}}
+
+    {{/*</div>*/}}
+{{/*</div>*/}}
+{{template "block/nav1.html"}}
+
+<div class="htmleaf-container">
+    <div class="wrapper">
+        <!--注册表单-->
+        <div class="container">
+            <h1>Welcome</h1>
+            <form id="register-form" class="form" method="post" action="">
+                <input type="text" name="username" placeholder="Username" id="register-username">
+                <input type="password" name="password" placeholder="Password" id="register-password">
+                <input type="password" name="repassword" placeholder="rePassword" id="register-repassword">
+                <br>
+                <button type="submit" id="login-button">Register</button>
+            </form>
+        </div>
+
+    {{/*背景动画*/}}
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+</div>
+
+</body>
+</html>
